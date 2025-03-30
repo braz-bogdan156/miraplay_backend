@@ -2,7 +2,8 @@
 const express = require('express'),
     router = express.Router(),
     usersRoutes = require('./userRoutes'),
-    authRoutes = require('./authRoutes');
+    authRoutes = require('./authRoutes'),
+    gameRoutes = require('./gameRoutes');
 
     router.get('/sg', (req, res) => {
         res.send('Сервер працює!');
@@ -10,6 +11,7 @@ const express = require('express'),
 
 router.use('/users', usersRoutes);
 router.use("/auth", authRoutes);
+router.use('/games', gameRoutes);
 
 module.exports = router;
 
