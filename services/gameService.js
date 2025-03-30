@@ -20,3 +20,13 @@ exports.fetchAndStoreGames = async () => {
     console.error("Помилка при отриманні ігор:", error);
   }
 };
+
+exports.createGame = async (gameData) => {
+  try {
+    const newGame = await Game.create(gameData);
+    return newGame;
+  } catch (error) {
+    console.error("Помилка при створенні гри:", error);
+    throw error;
+  }
+}

@@ -54,3 +54,24 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: "Помилка сервера" });
   }
 };
+
+exports.authenticateToken = async (req, res, next) => {
+  try {
+    const token = req.headers['authorization']?.split(' ')[1]; // Extract token
+
+    if (!token) return res.status(403).send('A token is required for authentication');
+    
+    const userPayload = jwt.verify(token, JWT_SECRET);
+
+    // get user from DB
+    const userRecord = await User.findOne({ _id: userPayload.id });
+
+    if (!userRecord) return res.status(401).send('User not found');
+
+    req.user = userRecord;
+
+    next(); // Pass control to the next middleware
+  } catch (error) {
+    res.status(403).send(error);
+  }
+};

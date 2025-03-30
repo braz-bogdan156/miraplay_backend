@@ -2,6 +2,7 @@ const Game = require("../models/game");
 const gameService = require("../services/gameService");
 
 
+
 // Отримання ігор з фільтрацією та пагінацією
 exports.getGames = async (req, res) => {
   try {
@@ -30,3 +31,22 @@ exports.updateGames = async (req, res) => {
       res.status(500).json({ error: "Помилка оновлення ігор" });
     }
   };
+
+  exports.createGame = async (req, res) => {    
+    try {
+        const gameData = req.body;
+        const newGame = await gameService.createGame(gameData);
+        res.status(201).json(newGame);
+      } catch (error) {
+        res.status(500).json({ error: "Помилка створення гри" });
+      }
+  }    
+
+  exports.fetchAndStoreGames = async (req, res) => {
+    try {
+      await gameService.fetchAndStoreGames();
+      res.status(200).json({ message: "Ігри успішно збережені!" });
+    } catch (error) {
+      res.status(500).json({ error: "Помилка при отриманні ігор" });
+    }
+  }
