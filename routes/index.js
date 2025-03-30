@@ -1,7 +1,7 @@
 
 const express = require('express'),
     router = express.Router(),
-    usersRoutes = require('./userRoutes');
+    usersRoutes = require('./userRoutes'),
     authRoutes = require('./authRoutes');
 
     router.get('/sg', (req, res) => {
