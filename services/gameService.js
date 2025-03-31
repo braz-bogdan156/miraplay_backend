@@ -23,6 +23,7 @@ exports.fetchAndStoreGames = async () => {
     console.log("Ігри успішно збережені в базу даних!");
   } catch (error) {
     console.error("Помилка при отриманні ігор:", error);
+    throw error;
   }
 };
 
