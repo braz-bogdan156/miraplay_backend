@@ -16,8 +16,8 @@ const GameSchema = new mongoose.Schema({
     required: true
   },
   gameDescription: {
-    type: String,
-    required: true
+    type: String
+    
   },
   
   // Платформи та запуск

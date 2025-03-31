@@ -8,8 +8,13 @@ exports.fetchAndStoreGames = async () => {
     const response = await axios.get(API_URL);
     const games = response.data;
 
+    console.log("Отримано ігор:", games);
+
     for (let game of games) {
       const existingGame = await Game.findOne({ systemGameName: game.systemGameName });
+      if (game.releaseDate) {
+        game.releaseDate = new Date(game.releaseDate.split('.').reverse().join('-'));
+      }
       if (!existingGame) {
         await Game.create(game);
       }
