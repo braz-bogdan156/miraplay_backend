@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
-const routes = require('./routes/index'); // Імпорт маршруту користувача
+const routes = require('./routes/index'); 
 
 const app = express();
 app.get('/', (req, res) => {
