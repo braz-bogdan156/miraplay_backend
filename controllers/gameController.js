@@ -15,7 +15,7 @@ exports.getGames = async (req, res) => {
       .limit(Number(limit));
 
     const totalGames = await Game.countDocuments(query);
-    const hasMore = (page * limit) < totalGames;
+ 
 
     res.json({ games, totalGames });
   } catch (error) {
