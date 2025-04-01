@@ -17,7 +17,7 @@ exports.getGames = async (req, res) => {
     const totalGames = await Game.countDocuments(query);
     const hasMore = (page * limit) < totalGames;
 
-    res.json({ games, hasMore });
+    res.json({ games, totalGames });
   } catch (error) {
     res.status(500).json({ message: "Помилка сервера" });
   }
