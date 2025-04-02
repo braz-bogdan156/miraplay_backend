@@ -11,9 +11,13 @@ exports.fetchAndStoreGames = async () => {
     console.log("Отримано ігор:", games);
 
     for (let game of games) {
-      const existingGame = await Game.findOne({ systemGameName: game.systemGameName });
+      const existingGame = await Game.findOne({
+        systemGameName: game.systemGameName,
+      });
       if (game.releaseDate) {
-        game.releaseDate = new Date(game.releaseDate.split('.').reverse().join('-'));
+        game.releaseDate = new Date(
+          game.releaseDate.split(".").reverse().join("-")
+        );
       }
       if (!existingGame) {
         await Game.create(game);
@@ -35,4 +39,4 @@ exports.createGame = async (gameData) => {
     console.error("Помилка при створенні гри:", error);
     throw error;
   }
-}
+};

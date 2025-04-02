@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 const User = require("../models/user");
 
-const JWT_SECRET = process.env.JWT_SECRET || "secretkey"; 
+const JWT_SECRET = process.env.JWT_SECRET || "secretkey";
 
 // Реєстрація
 exports.register = async (req, res) => {
@@ -42,10 +42,12 @@ exports.login = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "Невірний email або пароль" });
+    if (!user)
+      return res.status(400).json({ message: "Невірний email або пароль" });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Невірний email або пароль" });
+    if (!isMatch)
+      return res.status(400).json({ message: "Невірний email або пароль" });
 
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "7d" });
 
@@ -57,16 +59,17 @@ exports.login = async (req, res) => {
 
 exports.authenticateToken = async (req, res, next) => {
   try {
-    const token = req.headers['authorization']?.split(' ')[1]; // Extract token
+    const token = req.headers["authorization"]?.split(" ")[1]; // Extract token
 
-    if (!token) return res.status(403).send('A token is required for authentication');
-    
+    if (!token)
+      return res.status(403).send("A token is required for authentication");
+
     const userPayload = jwt.verify(token, JWT_SECRET);
 
     // get user from DB
     const userRecord = await User.findOne({ _id: userPayload.id });
 
-    if (!userRecord) return res.status(401).send('User not found');
+    if (!userRecord) return res.status(401).send("User not found");
 
     req.user = userRecord;
 

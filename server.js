@@ -3,19 +3,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const http = require('http');
-const { Server } = require('socket.io');
-const routes = require('./routes/index'); 
+const routes = require('./routes/index');
+const { initSocket } = require('./sockets/notifyNewGame'); 
 
 const app = express();
 app.get('/', (req, res) => {
   res.send('Сервер працює!');
 });
 const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: '*', // Дозволяємо всі запити (можна змінити)
-  },
-});
+initSocket(server);
+
 
 // Middleware
 app.use(cors());
@@ -31,15 +28,11 @@ mongoose.connect(process.env.MONGO_URI, {
   .then(() => console.log('✅ Підключено до MongoDB'))
   .catch(err => console.log('❌ Помилка підключення до MongoDB:', err));
 
-// WebSocket логіка
-io.on('connection', (socket) => {
-  console.log('🟢 Користувач підключився:', socket.id);
 
-  socket.on('disconnect', () => {
-    console.log('🔴 Користувач відключився:', socket.id);
-  });
-});
 
+
+
+module.exports = { server };
 
 
 // Запуск сервера
