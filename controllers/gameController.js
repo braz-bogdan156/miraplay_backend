@@ -1,4 +1,4 @@
-const Game = require("../models/game");
+
 const gameService = require("../services/gameService");
 const { notifyNewGame } = require("../sockets/notifyNewGame"); // Імпортуємо WebSocket
 
@@ -6,16 +6,8 @@ const { notifyNewGame } = require("../sockets/notifyNewGame"); // Імпорту
 exports.getGames = async (req, res) => {
   try {
     const { genre = "ALL", page = 1, limit = 9 } = req.query;
-    const query = genre !== "ALL" ? { genre } : {};
-
-    const games = await Game.find(query)
-      .sort({ releaseDate: -1 }) // Сортування за датою релізу (новіші першими)
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
-
-    const totalGames = await Game.countDocuments(query);
-
-    res.json({ games, totalGames });
+    const data = await gameService.getGames(genre, page, limit);
+    res.json(data);
   } catch (error) {
     res.status(500).json({ message: "Помилка сервера" });
   }

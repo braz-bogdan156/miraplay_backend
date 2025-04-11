@@ -40,3 +40,13 @@ exports.createGame = async (gameData) => {
     throw error;
   }
 };
+
+exports.getGames = async (genre = "ALL", page = 1, limit = 9) => {
+  const query = genre !== "ALL" ? { genre } : {};
+  const games = await Game.find(query)
+    .sort({ releaseDate: -1 })
+    .skip((page - 1) * limit)
+    .limit(Number(limit));
+  const totalGames = await Game.countDocuments(query);
+  return { games, totalGames };
+};
