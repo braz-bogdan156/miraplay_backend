@@ -18,7 +18,7 @@ exports.addComment = async (req, res) => {
 
 exports.getCommentsByGame = async (req, res) => {
   try {
-    const comments = await reviewServiceService.getCommentsByGameId(req.params.gameId);
+    const comments = await reviewService.getCommentsByGameId(req.params.gameId);
     res.status(200).json(comments);
   } catch (err) {
     res.status(500).json({ message: "Не вдалося завантажити коментарі" });
