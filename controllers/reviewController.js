@@ -2,7 +2,7 @@ const reviewService = require("../services/reviewService");
 
 exports.addComment = async (req, res) => {
   try {
-    const comment = await reviewService.createComment(
+    const comment = await reviewService.createReview(
       req.params.gameId,
       req.user._id,
       req.body.text
